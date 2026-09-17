@@ -482,13 +482,16 @@ async function loadPythonFile(button) {
         currentPythonCode = await response.text();
         codeContent.textContent = currentPythonCode;
         loadStatus.textContent = "Datei geladen";
+        if (!/\binput\s*\(/.test(currentPythonCode)) {
+          inputQuestion.textContent = "Keine Eingabe nötig";
+        }
         updateRunButton();
 
         if (currentFileRunnable) {
             await pyodideReadyPromise;
             await runCurrentPythonCode();
         } else {
-          outputContent.textContent = currentPythonCode;
+          outputContent.textContent = "CODE only";
           outputContent.scrollTop = 0;
         }
     } catch (error) {
