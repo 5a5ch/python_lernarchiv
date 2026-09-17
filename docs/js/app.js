@@ -345,7 +345,7 @@ let hasRunCurrentFile = false;
 let pyodideReadyPromise;
 let resolvePythonInput;
 
-const openingMessage = "Hier meine ersten Schritte in Python zu Aufgaben aus dem Lernfeld 5. Der Code wurde komplett ohne Hilfsmittel erarbeitet.\n\nFür die übersichtliche Darstellung hier war die KI so freundlich, mich zu unterstützen :-)";
+const openingMessage = "Hier meine ersten Schritte in Python zu Aufgaben aus dem Lernfeld 5.\nDer Code wurde komplett ohne Hilfsmittel erarbeitet.\n\nFür die übersichtliche Darstellung hier war die KI so freundlich, mich zu unterstützen :-)";
 
 function buildNavigation() {
     archive.forEach((category) => {
