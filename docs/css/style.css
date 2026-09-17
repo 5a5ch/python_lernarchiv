@@ -1,0 +1,90 @@
+/* =====================================
+   AKTIVES FARBSCHEMA (SET 2)
+   ===================================== */
+
+:root {
+
+    --color-1: #625A04;
+    --color-2: #9D9006;
+    --color-3: #D8C609;
+    --color-4: #F6E527;
+    --color-5: #F9EC62;
+    --color-6: #FBF39D;
+
+}
+
+/* =====================================
+   SET 1 - GRÜN
+   =====================================
+
+:root {
+
+    --color-1: #6ed8a0;
+    --color-2: #227d4c;
+    --color-3: #2da968;
+    --color-4: #42cc83;
+    --color-5: #6ed8a0;
+    --color-6: #9be4bd;
+
+}
+
+*/
+
+/* =====================================
+   SET 3 - TÜRKIS
+   =====================================
+
+:root {
+
+    --color-1: #045762;
+    --color-2: #068B9D;
+    --color-3: #09BFD8;
+    --color-4: #27DEF6;
+    --color-5: #62E7F9;
+    --color-6: #9DF0FB;
+
+}
+
+*/
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f0f0f0;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:var(--color-1);
+    color:white;
+    padding:20px;
+}
+
+.sidebar h2{
+    margin-top:0;
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:0;
+}
+
+.sidebar li{
+    padding:10px 0;
+}
+
+.content{
+    flex:1;
+    padding:30px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
