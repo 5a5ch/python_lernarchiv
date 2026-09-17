@@ -1,0 +1,32 @@
+# Von Python automatisch erzeugte Dateien
+__pycache__/
+*.py[cod]
+
+# Virtuelle Python-Umgebungen
+.venv/
+venv/
+env/
+
+# Lokale Umgebungsvariablen und Zugangsdaten
+.env
+.env.*
+!.env.example
+
+# Visual Studio Code
+.vscode/
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+
+# Temporäre Dateien und Sicherungskopien
+*.tmp
+*.temp
+*.bak
+*~
+``
