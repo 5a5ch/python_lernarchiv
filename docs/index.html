@@ -10,36 +10,29 @@
     <div class="app-layout">
         <aside class="sidebar">
             <h1 class="site-title">Python-Lernarchiv</h1>
-            <nav aria-label="Python-Übungen">
-                <section class="nav-group">
-                    <h2>Grundlagen</h2>
-                    <button class="file-link active" type="button"
-                        data-title="Hundealter" data-category="Grundlagen"
-                        data-file="040_Hundealter_Sascha.py"
-                        data-path="01_grundlagen/040_Hundealter_Sascha.py">Hundealter</button>
-                </section>
-                <section class="nav-group"><h2>Schleifen</h2><p class="nav-placeholder">Weitere Dateien folgen.</p></section>
-                <section class="nav-group"><h2>Funktionen</h2><p class="nav-placeholder">Weitere Dateien folgen.</p></section>
-                <section class="nav-group"><h2>Algorithmen</h2><p class="nav-placeholder">Weitere Dateien folgen.</p></section>
-                <section class="nav-group"><h2>OOP</h2><p class="nav-placeholder">Weitere Dateien folgen.</p></section>
-                <section class="nav-group"><h2>GUI</h2><p class="nav-placeholder">Weitere Dateien folgen.</p></section>
-            </nav>
+            <nav id="file-navigation" aria-label="Python-Übungen"></nav>
         </aside>
 
         <main class="workspace">
-            <section class="panel details-panel">
-                <h2>Details</h2>
-                <div class="details-grid">
-                    <p><strong>Titel:</strong> <span id="detail-title">Hundealter</span></p>
-                    <p><strong>Kategorie:</strong> <span id="detail-category">Grundlagen</span></p>
-                    <p><strong>Datei:</strong> <span id="detail-file">040_Hundealter_Sascha.py</span></p>
+            <section class="panel input-panel">
+                <div class="panel-heading">
+                    <h2 id="input-title">Eingabe</h2>
+                    <span id="input-file" class="status">Keine Datei ausgewählt</span>
                 </div>
+                <p id="input-question" class="input-question">Beim Start eines Programms erscheinen seine Fragen hier.</p>
+                <form id="input-form" class="input-form" hidden>
+                    <label for="python-input">Deine Antwort</label>
+                    <div class="input-controls">
+                        <input id="python-input" type="text" autocomplete="off">
+                        <button type="submit" class="run-button">Eingabe senden</button>
+                    </div>
+                </form>
             </section>
 
             <section class="panel code-panel">
                 <div class="panel-heading">
                     <h2>Python-Code</h2>
-                    <span id="load-status" class="status">Wird geladen ...</span>
+                    <span class="code-meta"><span id="code-file" class="code-file"></span><span id="load-status" class="status">Wird geladen ...</span></span>
                 </div>
                 <pre class="code-view"><code id="code-content">Python-Datei wird geladen ...</code></pre>
             </section>
