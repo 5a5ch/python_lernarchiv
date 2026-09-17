@@ -1,56 +1,82 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Python-Lernarchiv</title>
-
-    <linktyle.css
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <h1 class="site-title">Python-Lernarchiv</h1>
 
-    <div class="container">
+            <nav aria-label="Python-Übungen">
+                <section class="nav-group">
+                    <h2>Grundlagen</h2>
+                    <button
+                        class="file-link active"
+                        type="button"
+                        data-title="Hundealter"
+                        data-category="Grundlagen"
+                        data-file="040_Hundealter_Sascha.py"
+                        data-path="01_grundlagen/040_Hundealter_Sascha.py">
+                        Hundealter
+                    </button>
+                </section>
 
-        <div class="sidebar">
+                <section class="nav-group">
+                    <h2>Schleifen</h2>
+                    <p class="nav-placeholder">Weitere Dateien folgen.</p>
+                </section>
 
-            <h2>🐍 Python-Lernarchiv</h2>
+                <section class="nav-group">
+                    <h2>Funktionen</h2>
+                    <p class="nav-placeholder">Weitere Dateien folgen.</p>
+                </section>
 
-            <ul>
-                <li>Grundlagen</li>
-                <li>Schleifen</li>
-                <li>Funktionen</li>
-                <li>Algorithmen</li>
-                <li>OOP</li>
-                <li>GUI</li>
-            </ul>
+                <section class="nav-group">
+                    <h2>Algorithmen</h2>
+                    <p class="nav-placeholder">Weitere Dateien folgen.</p>
+                </section>
 
-        </div>
+                <section class="nav-group">
+                    <h2>OOP</h2>
+                    <p class="nav-placeholder">Weitere Dateien folgen.</p>
+                </section>
 
-        <div class="content">
+                <section class="nav-group">
+                    <h2>GUI</h2>
+                    <p class="nav-placeholder">Weitere Dateien folgen.</p>
+                </section>
+            </nav>
+        </aside>
 
-            <div class="card">
+        <main class="workspace">
+            <section class="panel details-panel" aria-labelledby="details-heading">
+                <h2 id="details-heading">Details</h2>
+                <div class="details-grid">
+                    <p><strong>Titel:</strong> <span id="detail-title">Hundealter</span></p>
+                    <p><strong>Kategorie:</strong> <span id="detail-category">Grundlagen</span></p>
+                    <p><strong>Datei:</strong> <span id="detail-file">040_Hundealter_Sascha.py</span></p>
+                </div>
+            </section>
 
-                <h1>Willkommen</h1>
+            <section class="panel code-panel" aria-labelledby="code-heading">
+                <div class="panel-heading">
+                    <h2 id="code-heading">Python-Code</h2>
+                    <span id="load-status" class="status">Wird geladen ...</span>
+                </div>
+                <pre class="code-view"><code id="code-content">Python-Datei wird geladen ...</code></pre>
+            </section>
 
-                <p>
-                    Dieses Archiv dokumentiert meinen Lernweg in Python.
-                </p>
-
-                <p>
-                    Viele Übungen enthalten mehrere Versionen,
-                    damit die Entwicklung eines Lösungsansatzes sichtbar bleibt.
-                </p>
-
-            </div>
-
-        </div>
-
+            <section class="panel output-panel" aria-labelledby="output-heading">
+                <h2 id="output-heading">Ausgabe</h2>
+                <pre id="output-content" class="output-view">Die Ausführung im Browser wird im nächsten Schritt ergänzt.</pre>
+            </section>
+        </main>
     </div>
 
-    
-
-<script src="js/app.js
+    <script src="js/app.js"></script>
 </body>
-
 </html>
