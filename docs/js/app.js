@@ -20,7 +20,7 @@ const archive = [
       },
       {
         "title": "Begrüßung",
-        "file": "020 Begrüßung_Sascha.py",
+        "file": "020_Begrüßung_Sascha.py",
         "runnable": true
       },
       {
@@ -341,10 +341,11 @@ const runButton = document.getElementById("run-button");
 
 let currentPythonCode = "";
 let currentFileRunnable = false;
+let hasRunCurrentFile = false;
 let pyodideReadyPromise;
 let resolvePythonInput;
 
-const openingMessage = "Hier meine ersten Schritte in Python zu Aufgaben aus dem Lernfeld 5. Der Code wurde komplett ohne Hilfsmittel erarbeitet.\nFür die übersichtliche Darstellung hier war die KI so freundlich mich zu unterstützen :-)\nSchau mal was davon du siehst und gib mir Rückmeldung.";
+const openingMessage = "Hier meine ersten Schritte in Python zu Aufgaben aus dem Lernfeld 5. Der Code wurde komplett ohne Hilfsmittel erarbeitet.\n\nFür die übersichtliche Darstellung hier war die KI so freundlich, mich zu unterstützen :-)";
 
 function buildNavigation() {
     archive.forEach((category) => {
@@ -385,25 +386,24 @@ function getPythonFileUrl(relativePath) {
         const userName = window.location.hostname.split(".")[0];
         return `https://raw.githubusercontent.com/${userName}/${repositoryName}/main/${relativePath}`;
     }
-    return `../${relativePath}`;
-}
 
-function appendOutput(text) {
-    if (outputContent.textContent === "Programm wird ausgeführt ...") outputContent.textContent = "";
-    outputContent.textContent += `${text}\n`;
+    return `../${relativePath}`;
 }
 
 function updateRunButton() {
     runButton.disabled = !currentFileRunnable || currentPythonCode.length === 0;
+  runButton.textContent = hasRunCurrentFile ? "Erneut ausführen" : "Ausführen";
 }
 
 function preparePythonCode(source) {
   const transformedSource = source.replace(/\binput\s*\(/g, "await __input(");
   const indentedSource = transformedSource.split("\n").map((line) => `    ${line}`).join("\n");
-  return `async def __run_user_code():\n${indentedSource}\nawait __run_user_code()`;
+  return `import io\nimport traceback\nfrom contextlib import redirect_stdout, redirect_stderr\n\n__output = io.StringIO()\n\nasync def __input(prompt):\n    return await __input_from_js(prompt, __output.getvalue())\n\nasync def __run_user_code():\n${indentedSource}\n\nwith redirect_stdout(__output), redirect_stderr(__output):\n    try:\n        await __run_user_code()\n    except Exception:\n        traceback.print_exc(file=__output)\n__output.getvalue()`;
 }
 
-function showPythonQuestion(prompt) {
+function showPythonQuestion(prompt, partialOutput) {
+  outputContent.textContent = partialOutput ? String(partialOutput) : "";
+    outputContent.scrollTop = 0;
     inputQuestion.textContent = prompt || "Eingabe erforderlich";
     inputForm.hidden = false;
     pythonInput.value = "";
@@ -424,13 +424,9 @@ function finishPythonQuestion(event) {
 }
 
 async function initializePython() {
-    outputContent.textContent = "Python wird vorbereitet ...";
     try {
         const pyodide = await loadPyodide();
-        pyodide.setStdout({ batched: appendOutput });
-        pyodide.setStderr({ batched: appendOutput });
-        pyodide.globals.set("__input", showPythonQuestion);
-        outputContent.textContent = "Python ist bereit.";
+        pyodide.globals.set("__input_from_js", showPythonQuestion);
         updateRunButton();
         return pyodide;
     } catch (error) {
@@ -447,14 +443,18 @@ async function runCurrentPythonCode() {
     if (!currentPythonCode) return;
 
     runButton.disabled = true;
+    hasRunCurrentFile = true;
+    runButton.textContent = "Erneut ausführen";
     outputContent.textContent = "Programm wird ausgeführt ...";
     outputContent.scrollTop = 0;
     try {
         const pyodide = await pyodideReadyPromise;
-        await pyodide.runPythonAsync(preparePythonCode(currentPythonCode));
-        if (outputContent.textContent === "Programm wird ausgeführt ...") outputContent.textContent = "Das Programm wurde ohne Ausgabe beendet.";
+      const collectedOutput = await pyodide.runPythonAsync(preparePythonCode(currentPythonCode));
+      outputContent.textContent = collectedOutput || "Das Programm wurde ohne Ausgabe beendet.";
+      outputContent.scrollTop = 0;
     } catch (error) {
-        outputContent.textContent += `\n\nPython-Fehler:\n${error}`;
+      outputContent.textContent = `Python-Fehler:\n${error}`;
+      outputContent.scrollTop = 0;
     } finally {
         updateRunButton();
     }
@@ -467,12 +467,16 @@ async function loadPythonFile(button) {
     inputTitle.textContent = button.dataset.title;
     inputFile.textContent = `${button.dataset.category} / ${button.dataset.file}`;
     currentFileRunnable = button.dataset.runnable === "true";
+    hasRunCurrentFile = false;
     inputQuestion.textContent = currentFileRunnable ? "Das Programm wird vorbereitet ..." : "Für diese Datei ist keine Eingabe im Browser vorgesehen.";
     inputForm.hidden = true;
     codeFile.textContent = button.dataset.file;
     codeFile.title = button.dataset.file;
     currentPythonCode = "";
     codeContent.textContent = "Python-Datei wird geladen ...";
+    document.querySelector(".code-view").scrollTop = 0;
+    outputContent.textContent = "";
+    outputContent.scrollTop = 0;
     loadStatus.textContent = "Wird geladen ...";
     updateRunButton();
 
@@ -487,10 +491,7 @@ async function loadPythonFile(button) {
         }
         updateRunButton();
 
-        if (currentFileRunnable) {
-            await pyodideReadyPromise;
-            await runCurrentPythonCode();
-        } else {
+        if (!currentFileRunnable) {
           outputContent.textContent = "CODE only";
           outputContent.scrollTop = 0;
         }
