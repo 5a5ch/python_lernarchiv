@@ -398,7 +398,7 @@ function updateRunButton() {
 function preparePythonCode(source) {
   const transformedSource = source.replace(/\binput\s*\(/g, "await __input(");
   const indentedSource = transformedSource.split("\n").map((line) => `    ${line}`).join("\n");
-  return `import io\nimport traceback\nfrom contextlib import redirect_stdout, redirect_stderr\n\n__output = io.StringIO()\n\nasync def __input(prompt):\n    return await __input_from_js(prompt, __output.getvalue())\n\nasync def __run_user_code():\n${indentedSource}\n\nwith redirect_stdout(__output), redirect_stderr(__output):\n    try:\n        await __run_user_code()\n    except Exception:\n        traceback.print_exc(file=__output)\n__output.getvalue()`;
+return `import io\nimport traceback\nfrom contextlib import redirect_stdout, redirect_stderr\n\n__output = io.StringIO()\n\nasync def __input(prompt=""):\n    return await __input_from_js(prompt, __output.getvalue())\n\nasync def __run_user_code():\n${indentedSource}\n\nwith redirect_stdout(__output), redirect_stderr(__output):\n    try:\n        await __run_user_code()\n    except Exception:\n        traceback.print_exc(file=__output)\n__output.getvalue()`;
 }
 
 function showPythonQuestion(prompt, partialOutput) {
